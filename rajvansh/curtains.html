@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Curtains | Rajvansh Ventures</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">RAJVANSH <span>VENTURES</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="curtains.html">Curtains</a></li>
+      <li><a href="bags.html">Bags</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="nav-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search…" onkeydown="if(event.key==='Enter')window.location.href='shop.html?q='+this.value"/>
+      </div>
+      <button class="btn-cart" onclick="toggleCart()">
+        🛒 Cart <span class="cart-count">0</span>
+      </button>
+      <button class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop All</a>
+  <a href="curtains.html">Curtains</a>
+  <a href="bags.html">Bags</a>
+  <a href="about.html">About Us</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<style>
+.page-hero{background:linear-gradient(135deg,#1a1a2e,#2d1b4e);padding:60px 5%;text-align:center;}
+.page-hero h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,2.8rem);color:#fff;margin-bottom:0.8rem;}
+.page-hero p{color:#b8a8cc;font-size:0.95rem;}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.prod-card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid #ede8f0;transition:transform 0.25s,box-shadow 0.25s;position:relative;}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(233,30,140,0.1);}
+.prod-badge{position:absolute;top:12px;left:12px;border-radius:999px;padding:4px 10px;font-size:0.7rem;font-weight:700;z-index:2;color:#fff;}
+.prod-badge.new{background:#10b981;}.prod-badge.sale{background:#f59e0b;}
+.prod-img{height:220px;overflow:hidden;}
+.prod-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s;}
+.prod-card:hover .prod-img img{transform:scale(1.05);}
+.prod-wish{position:absolute;top:12px;right:12px;width:34px;height:34px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:none;font-size:0.95rem;z-index:2;}
+.prod-wish:hover{background:var(--pink-light);}
+.prod-body{padding:18px;}
+.prod-cat{font-size:0.72rem;color:var(--pink);font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+.prod-name{font-family:var(--font-head);font-size:0.95rem;font-weight:600;margin-bottom:6px;line-height:1.3;}
+.prod-stars{color:#f59e0b;font-size:0.8rem;margin-bottom:8px;}
+.prod-price-row{display:flex;align-items:center;justify-content:space-between;}
+.prod-price{font-size:1rem;font-weight:700;}
+.prod-old{font-size:0.8rem;color:#aaa;text-decoration:line-through;margin-left:5px;}
+.btn-add{background:var(--dark);color:#fff;border:none;border-radius:999px;padding:8px 16px;font-family:var(--font-body);font-size:0.78rem;font-weight:600;cursor:pointer;transition:background 0.2s;}
+.btn-add:hover{background:var(--pink);}
+.prod-link{text-decoration:none;color:inherit;display:block;}
+.filter-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem;}
+.filter-pill{background:var(--gray);border:1.5px solid transparent;border-radius:999px;padding:8px 20px;font-family:var(--font-body);font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.2s;color:var(--text2);}
+.filter-pill.active,.filter-pill:hover{background:var(--pink);color:#fff;border-color:var(--pink);}
+@media(max-width:1024px){.prod-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){.prod-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.prod-grid{grid-template-columns:1fr;}}
+</style>
+<div class="page-hero"><h1>Curtains Collection</h1><p>Transform every room with our premium curtain range — blackout, sheer, door & more.</p></div>
+<div class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a> › <span>Curtains</span></div></div>
+<section>
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag">Home Décor</span>
+      <h2>Premium Curtains for Every Room</h2>
+      <p>Handpicked fabrics, beautiful designs, and perfect fit for Indian homes.</p>
+    </div>
+    <div class="filter-pills">
+      <button class="filter-pill active" onclick="filterC('all',this)">All Curtains</button>
+      <button class="filter-pill" onclick="filterC('blackout',this)">Blackout</button>
+      <button class="filter-pill" onclick="filterC('sheer',this)">Sheer & Linen</button>
+      <button class="filter-pill" onclick="filterC('door',this)">Door Curtains</button>
+      <button class="filter-pill" onclick="filterC('bedroom',this)">Bedroom</button>
+      <button class="filter-pill" onclick="filterC('sale',this)">On Sale</button>
+    </div>
+    <div class="prod-grid" id="curtainsGrid"><div class="prod-card" data-cat="blackout new">
+      <span class="prod-badge new">NEW</span>
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=1" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80&fit=crop" alt="Royal Velvet Blackout Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Royal Velvet Blackout Curtains</div>
+        <div class="prod-stars">★★★★★ (128)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹1,499</span><span class="prod-old">₹1,999</span></div>
+          <button class="btn-add" onclick="addToCart('Royal Velvet Blackout Curtains','₹1,499','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="sheer ">
+      
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=3" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=500&q=80&fit=crop" alt="Linen Sheer Eyelet Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Linen Sheer Eyelet Curtains</div>
+        <div class="prod-stars">★★★★☆ (74)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹799</span></div>
+          <button class="btn-add" onclick="addToCart('Linen Sheer Eyelet Curtains','₹799','https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="door sale">
+      <span class="prod-badge sale">SALE</span>
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=5" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=500&q=80&fit=crop" alt="Jacquard Woven Door Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Jacquard Woven Door Curtains</div>
+        <div class="prod-stars">★★★★☆ (61)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹649</span><span class="prod-old">₹949</span></div>
+          <button class="btn-add" onclick="addToCart('Jacquard Woven Door Curtains','₹649','https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="bedroom new">
+      <span class="prod-badge new">NEW</span>
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=7" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500&q=80&fit=crop" alt="Ombre Gradient Curtain Set" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Ombre Gradient Curtain Set</div>
+        <div class="prod-stars">★★★★★ (43)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹1,799</span></div>
+          <button class="btn-add" onclick="addToCart('Ombre Gradient Curtain Set','₹1,799','https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="door sale">
+      <span class="prod-badge sale">SALE</span>
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=9" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&q=80&fit=crop" alt="Bohemian Block Print Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Bohemian Block Print Curtains</div>
+        <div class="prod-stars">★★★★★ (67)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹899</span><span class="prod-old">₹1,199</span></div>
+          <button class="btn-add" onclick="addToCart('Bohemian Block Print Curtains','₹899','https://images.unsplash.com/photo-1513694203232-719a280e022f?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="sheer ">
+      
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=10" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500&q=80&fit=crop" alt="White Cotton Tab Top Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">White Cotton Tab Top Curtains</div>
+        <div class="prod-stars">★★★★☆ (39)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹599</span></div>
+          <button class="btn-add" onclick="addToCart('White Cotton Tab Top Curtains','₹599','https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="blackout sale">
+      <span class="prod-badge sale">SALE</span>
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=11" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1615873968403-89e068629265?w=500&q=80&fit=crop" alt="Navy Blue Blackout Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Navy Blue Blackout Curtains</div>
+        <div class="prod-stars">★★★★★ (84)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹1,299</span><span class="prod-old">₹1,699</span></div>
+          <button class="btn-add" onclick="addToCart('Navy Blue Blackout Curtains','₹1,299','https://images.unsplash.com/photo-1615873968403-89e068629265?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div>
+<div class="prod-card" data-cat="sheer new">
+      <span class="prod-badge new">NEW</span>
+      <button class="prod-wish" onclick="toggleWish(this)">♡</button>
+      <a href="product.html?id=12" class="prod-link"><div class="prod-img"><img src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=500&q=80&fit=crop" alt="Floral Printed Sheer Curtains" loading="lazy"/></div></a>
+      <div class="prod-body">
+        <div class="prod-cat">Curtains</div>
+        <div class="prod-name">Floral Printed Sheer Curtains</div>
+        <div class="prod-stars">★★★★☆ (28)</div>
+        <div class="prod-price-row">
+          <div><span class="prod-price">₹749</span></div>
+          <button class="btn-add" onclick="addToCart('Floral Printed Sheer Curtains','₹749','https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=100&q=80&fit=crop')">+ Add</button>
+        </div>
+      </div>
+    </div></div>
+    <div style="text-align:center;margin-top:3rem;padding:40px;background:var(--gray);border-radius:20px;">
+      <h3 style="font-family:var(--font-head);margin-bottom:0.8rem;">Need Custom Size Curtains?</h3>
+      <p style="color:var(--text2);margin-bottom:1.5rem;">We offer custom sizing for all curtain types. Contact us with your measurements.</p>
+      <a href="contact.html" class="btn-primary">Request Custom Order</a>
+    </div>
+  </div>
+</section>
+<script>
+function filterC(cat, btn){
+  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#curtainsGrid .prod-card').forEach(c=>{
+    const cats = c.dataset.cat||'';
+    c.style.display = (cat==='all'||cats.includes(cat)) ? 'block' : 'none';
+  });
+}
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">RAJVANSH <span>VENTURES</span></a>
+        <p>Premium curtains and bags curated for the modern Indian lifestyle. Quality you can feel, prices you'll love.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com" target="_blank" class="social-btn">📸</a>
+          <a href="https://facebook.com" target="_blank" class="social-btn">📘</a>
+          <a href="https://wa.me/919999999999" target="_blank" class="social-btn">💬</a>
+          <a href="mailto:hello@rajvanshventures.com" class="social-btn">✉️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="curtains.html">Curtains</a></li>
+          <li><a href="bags.html">Bags</a></li>
+          <li><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li><a href="shop.html?filter=sale">Sale Items</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="track.html">Track Order</a></li>
+          <li><a href="returns.html">Returns & Refunds</a></li>
+          <li><a href="shipping.html">Shipping Policy</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rajvansh Ventures. All rights reserved. Made with ❤️ in India.</p>
+      <div class="payment-icons">
+        <span class="pay-badge">Razorpay</span>
+        <span class="pay-badge">UPI</span>
+        <span class="pay-badge">COD</span>
+        <span class="pay-badge">Visa</span>
+        <span class="pay-badge">Mastercard</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<a href="https://wa.me/919999999999?text=Hi! I'm interested in your products at Rajvansh Ventures." target="_blank" class="wa-float">
+  💬 WhatsApp Us
+</a>
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><p>🛒</p><div>Your cart is empty</div></div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="cart-total-row"><span>Shipping</span><span id="cartShipping">₹79</span></div>
+    <div class="cart-grand"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <a href="checkout.html" class="btn-checkout">Proceed to Checkout →</a>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+
+</body>
+</html>
