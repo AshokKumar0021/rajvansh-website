@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Checkout | Rajvansh Ventures</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">RAJVANSH <span>VENTURES</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="curtains.html">Curtains</a></li>
+      <li><a href="bags.html">Bags</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="nav-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search…" onkeydown="if(event.key==='Enter')window.location.href='shop.html?q='+this.value"/>
+      </div>
+      <button class="btn-cart" onclick="toggleCart()">
+        🛒 Cart <span class="cart-count">0</span>
+      </button>
+      <button class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop All</a>
+  <a href="curtains.html">Curtains</a>
+  <a href="bags.html">Bags</a>
+  <a href="about.html">About Us</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<style>
+.page-hero{background:linear-gradient(135deg,#1a1a2e,#2d1b4e);padding:50px 5%;text-align:center;}
+.page-hero h1{font-family:var(--font-head);font-size:2rem;color:#fff;margin-bottom:0.5rem;}
+.page-hero p{color:#b8a8cc;font-size:0.9rem;}
+.checkout-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;}
+.checkout-steps{display:flex;align-items:center;gap:0;margin-bottom:2rem;}
+.step{display:flex;align-items:center;gap:10px;font-size:0.85rem;}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--pink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;}
+.step-num.inactive{background:#ede8f0;color:var(--text2);}
+.step-name{font-weight:500;color:var(--text);}
+.step-name.inactive{color:var(--text2);}
+.step-line{flex:1;height:2px;background:#ede8f0;margin:0 12px;}
+.step-line.done{background:var(--pink);}
+.form-card{background:#fff;border:1px solid #ede8f0;border-radius:20px;padding:32px;margin-bottom:24px;}
+.form-card h3{font-family:var(--font-head);font-size:1.2rem;margin-bottom:1.5rem;padding-bottom:12px;border-bottom:1px solid #ede8f0;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.form-group label{font-size:0.83rem;font-weight:600;color:var(--text);}
+.form-group input,.form-group select{border:1.5px solid #ede8f0;border-radius:10px;padding:11px 14px;font-family:var(--font-body);font-size:0.9rem;outline:none;transition:border 0.2s;background:#fff;width:100%;}
+.form-group input:focus,.form-group select:focus{border-color:var(--pink);}
+.pay-methods{display:flex;flex-direction:column;gap:10px;}
+.pay-opt{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1.5px solid #ede8f0;border-radius:12px;cursor:pointer;transition:border 0.2s;}
+.pay-opt:hover,.pay-opt.selected{border-color:var(--pink);background:var(--pink-light);}
+.pay-opt input{accent-color:var(--pink);width:16px;height:16px;}
+.pay-opt label{font-size:0.9rem;font-weight:500;cursor:pointer;}
+.pay-opt span{font-size:0.78rem;color:var(--text2);margin-left:auto;}
+.order-summary{position:sticky;top:90px;}
+.summary-card{background:#fff;border:1px solid #ede8f0;border-radius:20px;padding:28px;}
+.summary-card h3{font-family:var(--font-head);font-size:1.2rem;margin-bottom:1.5rem;padding-bottom:12px;border-bottom:1px solid #ede8f0;}
+.summary-item{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.si-img{width:56px;height:56px;border-radius:8px;overflow:hidden;background:#f5f0f8;flex-shrink:0;}
+.si-img img{width:100%;height:100%;object-fit:cover;}
+.si-name{font-size:0.85rem;font-weight:600;flex:1;line-height:1.3;}
+.si-price{font-size:0.88rem;font-weight:700;color:var(--pink);}
+.summary-divider{border:none;border-top:1px solid #ede8f0;margin:16px 0;}
+.summary-row{display:flex;justify-content:space-between;font-size:0.88rem;color:var(--text2);margin-bottom:8px;}
+.summary-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;margin-top:12px;}
+.coupon-row{display:flex;gap:8px;margin-bottom:16px;}
+.coupon-input{flex:1;border:1.5px solid #ede8f0;border-radius:10px;padding:10px 14px;font-family:var(--font-body);font-size:0.88rem;outline:none;}
+.coupon-input:focus{border-color:var(--pink);}
+.coupon-btn{background:var(--dark);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-family:var(--font-body);font-size:0.85rem;font-weight:600;cursor:pointer;}
+.coupon-btn:hover{background:var(--pink);}
+.btn-place{width:100%;background:var(--pink);color:#fff;border:none;border-radius:999px;padding:16px;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:16px;}
+.btn-place:hover{background:var(--pink-dark);}
+.secure-badges{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap;}
+.s-badge{font-size:0.75rem;color:var(--text2);display:flex;align-items:center;gap:4px;}
+.order-success{display:none;text-align:center;padding:60px 5%;max-width:600px;margin:0 auto;}
+.order-success .tick{font-size:5rem;margin-bottom:1rem;}
+.order-success h2{font-family:var(--font-head);font-size:2rem;margin-bottom:1rem;}
+.order-success p{color:var(--text2);line-height:1.7;margin-bottom:2rem;}
+@media(max-width:768px){.checkout-grid{grid-template-columns:1fr;}.order-summary{position:static;}.form-row{grid-template-columns:1fr;}}
+</style>
+
+<div class="page-hero"><h1>Secure Checkout</h1><p>Fast, safe, and easy checkout — 100% secured by Razorpay</p></div>
+<div class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a> › <a href="shop.html">Shop</a> › <span>Checkout</span></div></div>
+
+<section>
+  <div class="section-inner">
+    <!-- STEPS -->
+    <div class="checkout-steps">
+      <div class="step"><div class="step-num">1</div><span class="step-name">Delivery</span></div>
+      <div class="step-line done"></div>
+      <div class="step"><div class="step-num inactive">2</div><span class="step-name inactive">Payment</span></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num inactive">3</div><span class="step-name inactive">Confirm</span></div>
+    </div>
+
+    <div id="checkoutMain">
+      <div class="checkout-grid">
+        <!-- FORMS -->
+        <div>
+          <!-- DELIVERY INFO -->
+          <div class="form-card">
+            <h3>📦 Delivery Information</h3>
+            <div class="form-row">
+              <div class="form-group"><label>First Name *</label><input type="text" placeholder="Rahul" id="fname"/></div>
+              <div class="form-group"><label>Last Name *</label><input type="text" placeholder="Sharma" id="lname"/></div>
+            </div>
+            <div class="form-group"><label>Email Address *</label><input type="email" placeholder="rahul@email.com" id="email"/></div>
+            <div class="form-group"><label>Phone Number *</label><input type="tel" placeholder="+91 98765 43210" id="phone"/></div>
+            <div class="form-group"><label>Full Address *</label><input type="text" placeholder="House No, Street, Area" id="address"/></div>
+            <div class="form-row">
+              <div class="form-group"><label>City *</label><input type="text" placeholder="Jaipur" id="city"/></div>
+              <div class="form-group"><label>State *</label>
+                <select id="state">
+                  <option value="">Select State</option>
+                  <option>Rajasthan</option><option>Delhi</option><option>Maharashtra</option>
+                  <option>Gujarat</option><option>Karnataka</option><option>Tamil Nadu</option>
+                  <option>Uttar Pradesh</option><option>West Bengal</option><option>Madhya Pradesh</option>
+                  <option>Punjab</option><option>Haryana</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group"><label>PIN Code *</label><input type="text" placeholder="302001" id="pin" maxlength="6"/></div>
+          </div>
+
+          <!-- PAYMENT -->
+          <div class="form-card">
+            <h3>💳 Payment Method</h3>
+            <div class="pay-methods">
+              <div class="pay-opt selected" onclick="selectPay(this)">
+                <input type="radio" name="pay" checked/><label>🔒 Razorpay (Cards, NetBanking, Wallets)</label><span>Recommended</span>
+              </div>
+              <div class="pay-opt" onclick="selectPay(this)">
+                <input type="radio" name="pay"/><label>📱 UPI (GPay, PhonePe, Paytm)</label><span>Instant</span>
+              </div>
+              <div class="pay-opt" onclick="selectPay(this)">
+                <input type="radio" name="pay"/><label>📦 Cash on Delivery</label><span>+₹49 COD fee</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="order-summary">
+          <div class="summary-card">
+            <h3>🛒 Order Summary</h3>
+            <div id="checkoutItems"><p style="color:var(--text2);font-size:0.9rem;text-align:center;padding:20px 0;">Your cart is empty. <a href="shop.html" style="color:var(--pink);">Go Shop →</a></p></div>
+            <hr class="summary-divider"/>
+            <div class="coupon-row">
+              <input class="coupon-input" type="text" placeholder="Enter coupon code…" id="couponInput"/>
+              <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+            </div>
+            <div class="summary-row"><span>Subtotal</span><span id="coSubtotal">₹0</span></div>
+            <div class="summary-row"><span>Shipping</span><span id="coShipping">₹79</span></div>
+            <div class="summary-row" id="discountRow" style="display:none;color:green;"><span>Discount</span><span id="coDiscount">-₹0</span></div>
+            <div class="summary-divider"></div>
+            <div class="summary-total"><span>Total</span><span id="coTotal">₹0</span></div>
+            <button class="btn-place" onclick="placeOrder()">Place Order →</button>
+            <div class="secure-badges">
+              <span class="s-badge">🔒 SSL Secured</span>
+              <span class="s-badge">✅ Razorpay</span>
+              <span class="s-badge">📦 COD Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="order-success" id="orderSuccess">
+      <div class="tick">🎉</div>
+      <h2>Order Placed Successfully!</h2>
+      <p>Thank you for shopping with Rajvansh Ventures! Your order has been confirmed and will be shipped within 24 hours. You'll receive a WhatsApp confirmation shortly.</p>
+      <p style="font-weight:600;">Order ID: <span style="color:var(--pink);" id="orderId">RV-2025-XXXX</span></p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="index.html" class="btn-primary">Continue Shopping</a>
+        <a href="contact.html" class="btn-outline">Track / Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function selectPay(el){
+  document.querySelectorAll('.pay-opt').forEach(o=>{o.classList.remove('selected');o.querySelector('input').checked=false;});
+  el.classList.add('selected');
+  el.querySelector('input').checked=true;
+}
+function applyCoupon(){
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  if(code==='RAJVANSH10'){
+    document.getElementById('discountRow').style.display='flex';
+    document.getElementById('coDiscount').textContent='-10%';
+    showToast('✅ Coupon applied! 10% off');
+    updateCheckoutSummary(true);
+  } else { showToast('❌ Invalid coupon code'); }
+}
+function updateCheckoutSummary(withDiscount){
+  const cart = JSON.parse(localStorage.getItem('rv_cart')||'[]');
+  const el = document.getElementById('checkoutItems');
+  if(cart.length===0){ el.innerHTML='<p style="color:var(--text2);font-size:0.9rem;text-align:center;padding:20px 0;">Your cart is empty. <a href="shop.html" style="color:var(--pink);">Go Shop →</a></p>'; return; }
+  el.innerHTML = cart.map(item=>`<div class="summary-item"><div class="si-img"><img src="${item.img}" alt="" onerror="this.style.display='none'"/></div><div class="si-name">${item.name} <span style="color:var(--text2);font-weight:400;">×${item.qty}</span></div><div class="si-price">${item.price}</div></div>`).join('');
+  let subtotal = cart.reduce((s,i)=>{const n=parseInt(i.price.replace(/[^0-9]/g,''));return s+n*i.qty;},0);
+  const shipping = subtotal>=999?0:79;
+  const discount = withDiscount ? Math.round(subtotal*0.1) : 0;
+  document.getElementById('coSubtotal').textContent='₹'+subtotal.toLocaleString('en-IN');
+  document.getElementById('coShipping').textContent=shipping===0?'FREE':'₹'+shipping;
+  document.getElementById('coTotal').textContent='₹'+(subtotal+shipping-discount).toLocaleString('en-IN');
+}
+function placeOrder(){
+  const required=['fname','lname','email','phone','address','city','state','pin'];
+  let valid=true;
+  required.forEach(id=>{const el=document.getElementById(id);if(!el.value){el.style.borderColor='#ef4444';valid=false;}else{el.style.borderColor='#ede8f0';}});
+  if(!valid){showToast('⚠️ Please fill all required fields.');return;}
+  const orderId='RV-2025-'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('orderId').textContent=orderId;
+  document.getElementById('checkoutMain').style.display='none';
+  document.getElementById('orderSuccess').style.display='block';
+  localStorage.removeItem('rv_cart');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('DOMContentLoaded',()=>updateCheckoutSummary(false));
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">RAJVANSH <span>VENTURES</span></a>
+        <p>Premium curtains and bags curated for the modern Indian lifestyle. Quality you can feel, prices you'll love.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com" target="_blank" class="social-btn">📸</a>
+          <a href="https://facebook.com" target="_blank" class="social-btn">📘</a>
+          <a href="https://wa.me/919999999999" target="_blank" class="social-btn">💬</a>
+          <a href="mailto:hello@rajvanshventures.com" class="social-btn">✉️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="curtains.html">Curtains</a></li>
+          <li><a href="bags.html">Bags</a></li>
+          <li><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li><a href="shop.html?filter=sale">Sale Items</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="track.html">Track Order</a></li>
+          <li><a href="returns.html">Returns & Refunds</a></li>
+          <li><a href="shipping.html">Shipping Policy</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rajvansh Ventures. All rights reserved. Made with ❤️ in India.</p>
+      <div class="payment-icons">
+        <span class="pay-badge">Razorpay</span>
+        <span class="pay-badge">UPI</span>
+        <span class="pay-badge">COD</span>
+        <span class="pay-badge">Visa</span>
+        <span class="pay-badge">Mastercard</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<a href="https://wa.me/919999999999?text=Hi! I'm interested in your products at Rajvansh Ventures." target="_blank" class="wa-float">
+  💬 WhatsApp Us
+</a>
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><p>🛒</p><div>Your cart is empty</div></div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="cart-total-row"><span>Shipping</span><span id="cartShipping">₹79</span></div>
+    <div class="cart-grand"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <a href="checkout.html" class="btn-checkout">Proceed to Checkout →</a>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+
+</body>
+</html>
